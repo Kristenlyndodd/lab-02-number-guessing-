@@ -1,1 +1,9 @@
-/* add home page styles here */
+main {
+    margin: 20px;
+}
+button {
+    margin: 20px;
+}
+input {
+    margin-top: 20px;
+}

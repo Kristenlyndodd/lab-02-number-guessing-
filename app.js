@@ -1,54 +1,35 @@
-// Functions & Dom Elements 
+import { getRandomInt } from './utils.js';
+import { compareNumbers } from './utils.js';
 
-import { numCheck } from './utils.js';
+const resetBtn = document.getElementById('reset-button');
+const numberInput = document.getElementById('user-guess');
+const submitBtn = document.getElementById('submit-button');
+const response = document.getElementById('response');
+const attempts = document.getElementById('attempts-left');
+let randNum = getRandomInt();
+let clickCount = 0;
+console.log(randNum);
 
-const targetNum = Math.floor(Math.random() * 10);
-const userGuess = document.getElementById('input');
-const gBtn = document.getElementById('guess-btn');
-//const rBtn = document.getElementById('reset-btn');
-const scr = document.getElementById('score');
-
-let guessesRemaining = 4;
-
-gBtn.addEventListener('click', () => {
-    guessesRemaining --;
-    // console.log(guessesRemaining);
-    // console.log(targetNum);
-    // console.log(userGuess);
-   
-    if (userGuess.value === targetNum) {
-        gBtn.disabled = true;
-    }
-    if (userGuess.value < targetNum) {
-        return numCheck.textContent = `Wrong Answer ${guessesRemaining}`;
-    }
-    if (userGuess.value > targetNum) {
-        return numCheck.textContent = `Wrong Answer ${guessesRemaining}`;
-    }
-    else
-        return numCheck.textContent = `you did it!`;
+resetBtn.addEventListener('click', ()=>{
+    clickCount = 0;
+    document.getElementById('submit-button').disabled = false;
+    randNum = getRandomInt();
+    console.log(randNum);
+    attempts.textContent = ``;
+    response.textContent = `Higher or Lower?`;
 });
-
-
-
-
-
-
-//rBtn.addEventListener('click', () => {
-
-//});
-
-//   get the userGuess from the input -- convert it to a number
-//   check the userGuess against the targetNumber
-//   if userGuess === targetNumber --> 
-//       END THE GAME
-//       display winning message
-//   if userGuess !== targetNumber --> 
-//       display feedback with over or under
-//       decrement remaining guesses
-//          if no guesses remaining
-//             END THE GAME
-//             display losing message
-  // get user input
-  // use user input to update state 
-  // update DOM to reflect the new state
+  
+  
+submitBtn.addEventListener('click', ()=>{
+    let numberInputValue = Number(numberInput.value);
+    response.textContent = compareNumbers(numberInputValue, randNum);
+    clickCount++;
+    console.log(clickCount);
+    attempts.textContent = `You've guessed ${clickCount}/4 times.`;
+    if ((clickCount > 3) && (numberInputValue === randNum)) {
+        submitBtn.disabled = true;
+    } else if (clickCount > 3) {
+        submitBtn.disabled = true;
+        attempts.textContent = `You're out of guesses! The answer was ${randNum}`;
+    }
+});
